@@ -9,7 +9,7 @@
 
 typedef struct
 {
-  char Nome[100];
+  char nome[50];
   int idade;
 }
 Informacoespessoas;
@@ -26,20 +26,18 @@ int main()
   
   for (i=0; i<n; i++)
   {
-    printf("informe o nome da pessoa ");
-    fgets(pessoas[i].Nome, 100, stdin);
     // retirando o \n do final do fgets
-    size_t ln = strlen(pessoas[i].Nome) - 1; 
-    if (pessoas[i].Nome[ln] == '\n')
-    {
-      pessoas[i].Nome[ln] = '\0';
-    }
-  
-    
-    printf("\ninforme a idade ");
-    scanf("%d", &pessoas[i].idade);
     getchar();
+    printf("informe o nome ");
+    fgets(pessoas[i].nome, 50, stdin);
+    size_t ln = strlen(pessoas[i].nome) - 1;
+    if (pessoas[i].nome[ln] == '\n')
+    {
+      pessoas[i].nome[ln] = '\0';
+    }
     
+    printf("informe a idade ");
+    scanf("%d", &pessoas[i].idade);
     soma_idades = pessoas[i].idade + soma_idades;
   }
   
@@ -50,7 +48,7 @@ int main()
   {
     if (pessoas[i].idade > media)
     {
-      printf("%s com idade %d tem a idade maior que a media \n", pessoas[i].Nome, pessoas[i].idade);
+      printf("%s com idade %d tem a idade maior que a media \n", pessoas[i].nome, pessoas[i].idade);
     }
   }    
 }

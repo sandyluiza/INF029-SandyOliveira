@@ -7,98 +7,57 @@
 #include <stdio.h>
 #include <string.h>
 
-void validarNome()
+typedef struct
 {
   char nome[50];
-  size_t ln=21;
+  char dataNasc[12];
+  char cpf[13];
+  char sexo;
+}
+InformacoesCli;
 
-  while (ln>20)
+void CadCliente(InformacoesCli InfCli[1], int numcli)
+{
+  int i;
+  
+  for (i=0; i<numcli; i++)
   {
-    printf("\ninforme o nome ");
-    fgets(nome, 50, stdin);
-    ln = strlen(nome) - 1;
-    if (nome[ln] == '\n')
+    printf("informe o nome ");
+    fgets(InfCli[i].nome, 50, stdin);
+    size_t ln = strlen(InfCli[i].nome) - 1;
+    if (InfCli[i].nome[ln] == '\n')
     {
-      nome[ln] = '\0';
+      InfCli[i].nome[ln] = '\0';
     }
-    if (ln>20)
+    
+    printf("informe a data de nascimento ");
+    fgets(InfCli[i].dataNasc, 12, stdin);
+    size_t lo = strlen(InfCli[i].dataNasc) - 1;
+    if (InfCli[i].dataNasc[lo] == '\n')
     {
-      printf("O nome possui mais que 20 caracteres.");
+      InfCli[i].dataNasc[lo] = '\0';
     }
+    
+    printf("informe o CPF ");
+    fgets(InfCli[i].cpf, 13, stdin);
+    size_t lp = strlen(InfCli[i].cpf) - 1;
+    if (InfCli[i].cpf[lp] == '\n')
+    {
+      InfCli[i].cpf[lp] = '\0';
+    }
+    
+    printf("informe o sexo(F/M) ");
+    scanf("%c", &InfCli[i].sexo);
   }
-  printf("Nome tem até 20 caracteres.");
+  return;
 }
 
-void validarSexo()
+int main()
 {
-  char sexo = "J", F, f, M, m, O, o;
+  InformacoesCli InformCli[1];
+  int i, ncli=1;
   
-  while (sexo != F & sexo != f & sexo != M & sexo != m & sexo != o & sexo != O)
-  {
-    printf("\ninforme o sexo(F/M/O) ");
-    scanf("%c", &sexo);
-    printf("\nOpção não é uma válida.");
-  }
-  printf("É uma opção válida.");
+  CadCliente(InformCli, ncli); 
+  
+  printf("Nome %s\nData de nascimento %s\nCPF %s\nSexo %c\n", InformCli[i].nome,  InformCli[i].dataNasc, InformCli[i].cpf, InformCli[i].sexo);
 }
-
-void cadastrarCliente()
-{
-  validarNome();
-  validarSexo();
-}
-
-int main(void)
-{
-  cadastrarCliente();
-}
-
-
-
-
-// typedef struct
-// {
-//   char nome[50];
-//   char dataNasc[12];
-//   char cpf[13];
-//   char sexo;
-// }
-// InformacoesCli;
-
-// void CadCliente(InformacoesCli InfCli[1], int numcli)
-// {
-//   int i;
-  
-//   
-    
-//     printf("informe a data de nascimento ");
-//     fgets(InfCli[i].dataNasc, 12, stdin);
-//     size_t lo = strlen(InfCli[i].dataNasc) - 1;
-//     if (InfCli[i].dataNasc[lo] == '\n')
-//     {
-//       InfCli[i].dataNasc[lo] = '\0';
-//     }
-    
-//     printf("informe o CPF ");
-//     fgets(InfCli[i].cpf, 13, stdin);
-//     size_t lp = strlen(InfCli[i].cpf) - 1;
-//     if (InfCli[i].cpf[lp] == '\n')
-//     {
-//       InfCli[i].cpf[lp] = '\0';
-//     }
-    
-//     printf("informe o sexo(F/M) ");
-//     scanf("%c", &InfCli[i].sexo);
-//   }
-//   return;
-// }
-
-// int main()
-// {
-//   InformacoesCli InformCli[1];
-//   int i, ncli=1;
-  
-//   CadCliente(InformCli, ncli); 
-  
-//   printf("Nome %s\nData de nascimento %s\nCPF %s\nSexo %c\n", InformCli[i].nome,  InformCli[i].dataNasc, InformCli[i].cpf, InformCli[i].sexo);
-// }
