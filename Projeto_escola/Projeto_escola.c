@@ -163,10 +163,87 @@ void inc_aluno()
 }
 void inc_prof()
 {
+  estru_professor e_professor[2];
+  int i, n = 2;
+  for (i=0; i<n; i++)
+  {
+    getchar();
+    printf("\n");
+    printf("Informe a matrícula ");
+    fgets(e_professor[i].matricula, 20, stdin);
+    size_t l1 = strlen(e_professor[i].matricula) - 1;
+    if (e_professor[i].matricula[l1] == '\n')
+    {
+      e_professor[i].matricula[l1] = '\0';
+    }
+    printf("Informe o nome ");
+    fgets(e_professor[i].nome, 50, stdin);
+    size_t l2 = strlen(e_professor[i].nome) - 1;
+    if (e_professor[i].nome[l2] == '\n')
+    {
+      e_professor[i].nome[l2] = '\0';
+    }
+    printf("Informe o sexo ");
+    fgets(e_professor[i].nome, 50, stdin);
+    size_t l5 = strlen(e_professor[i].nome) - 1;
+    if (e_professor[i].nome[l5] == '\n')
+    {
+      e_professor[i].nome[l5] = '\0';
+    }
+    printf("Informe a data de nascimento ");
+    fgets(e_professor[i].dataNasc, 12, stdin);
+    size_t l3 = strlen(e_professor[i].dataNasc) - 1;
+    if (e_professor[i].dataNasc[l3] == '\n')
+    {
+      e_professor[i].dataNasc[l3] = '\0';
+    }
+    printf("Informe o CPF ");
+    fgets(e_professor[i].cpf, 13, stdin);
+    size_t l4 = strlen(e_professor[i].cpf) - 1;
+    if (e_professor[i].cpf[l4] == '\n')
+    {
+      e_professor[i].cpf[l4] = '\0';
+    }
+  }
   return;
 }
 void inc_disc()
 {
+  estru_disciplina e_disciplina[2];
+  int i, n = 2;
+  for (i=0; i<n; i++)
+  {
+    getchar();
+    printf("\n");
+    printf("Informe o nome ");
+    fgets(e_disciplina[i].nome, 50, stdin);
+    size_t l2 = strlen(e_disciplina[i].nome) - 1;
+    if (e_disciplina[i].nome[l2] == '\n')
+    {
+      e_disciplina[i].nome[l2] = '\0';
+    }
+    printf("Informe o código ");
+    fgets(e_disciplina[i].codigo, 20, stdin);
+    size_t l5 = strlen(e_disciplina[i].codigo) - 1;
+    if (e_disciplina[i].codigo[l5] == '\n')
+    {
+      e_disciplina[i].codigo[l5] = '\0';
+    }
+    printf("Informe o semestre ");
+    fgets(e_disciplina[i].semestre, 12, stdin);
+    size_t l3 = strlen(e_disciplina[i].semestre) - 1;
+    if (e_disciplina[i].semestre[l3] == '\n')
+    {
+      e_disciplina[i].semestre[l3] = '\0';
+    }
+    printf("Informe o professor ");
+    fgets(e_disciplina[i].professor, 50, stdin);
+    size_t l4 = strlen(e_disciplina[i].professor) - 1;
+    if (e_disciplina[i].professor[l4] == '\n')
+    {
+      e_disciplina[i].professor[l4] = '\0';
+    }
+  }
   return;
 }
 
