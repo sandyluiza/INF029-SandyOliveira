@@ -6,6 +6,7 @@
 // • função validarNacimento: recebe o data digitada, e valida é uma data válida.
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 typedef struct
 {
@@ -16,9 +17,15 @@ typedef struct
 }
 InformacoesCli;
 
-void CadCliente(InformacoesCli InfCli[1], int numcli)
+int valida_sexo(char c);
+int valida_nome();
+int valida_dataNasc();
+int valida_cpf();
+
+int CadCliente(InformacoesCli InfCli[1], int numcli)
 {
   int i;
+  int cont = 0;
   
   for (i=0; i<numcli; i++)
   {
@@ -29,6 +36,8 @@ void CadCliente(InformacoesCli InfCli[1], int numcli)
     {
       InfCli[i].nome[ln] = '\0';
     }
+    valida_nome(InfCli[i].nome);
+    cont = valida_nome(InfCli[i].nome, cont) + cont;
     
     printf("informe a data de nascimento ");
     fgets(InfCli[i].dataNasc, 12, stdin);
@@ -37,6 +46,8 @@ void CadCliente(InformacoesCli InfCli[1], int numcli)
     {
       InfCli[i].dataNasc[lo] = '\0';
     }
+    valida_dataNasc(InfCli[i].dataNasc);
+    cont = cont + valida_dataNasc(InfCli[i].dataNasc);
     
     printf("informe o CPF ");
     fgets(InfCli[i].cpf, 13, stdin);
@@ -45,19 +56,116 @@ void CadCliente(InformacoesCli InfCli[1], int numcli)
     {
       InfCli[i].cpf[lp] = '\0';
     }
+    valida_cpf(InfCli[i].cpf);
+    cont = cont + valida_cpf(InfCli[i].cpf);
     
-    printf("informe o sexo(F/M) ");
+    printf("informe o sexo(F/M/O) ");
     scanf("%c", &InfCli[i].sexo);
+    valida_sexo(InfCli[i].sexo);
+    cont = cont + valida_sexo(InfCli[i].sexo);
+    
+    return cont;
   }
-  return;
+}
+
+int valida_sexo(char c)
+{
+  int cont;
+  if (c != 'O' && c != 'F' && c != 'M' && c != 'o' && c != 'f' && c != 'm')
+  {
+    printf("Sexo inválido.");
+    cont = 0;
+  }
+  else
+  {
+    cont = 1;
+  }
+  return cont;
+}
+int valida_nome(char nome[20])
+{
+  int cont;
+  int cont_nome = strlen(nome);
+  if (cont_nome>20)
+  {
+    printf("Nome possui mais que 20 caracteres.\n");
+    cont = 0;
+  }
+  else
+  {
+    cont = 1;
+  }
+  return cont;
+}
+
+int valida_dataNasc(char dataNasc[12])
+{
+  char sdia[3], smes[3], sano[12];
+  int i, j, k, dia, mes, ano, cont;
+  for(i=0; dataNasc[i] != '/' && i<2; i++)
+  {
+    sdia[i] = dataNasc[i];   
+  }
+  sdia[i] = '\0';
+  dia = atoi(sdia); 
+  // printf("%d", dia);
+
+  for(j=0; dataNasc[j] != '/' && j<2; j++)
+  {
+    smes[j] = dataNasc[j+3]; 
+  }
+  smes[j] = '\0';
+  mes = atoi(smes);
+
+  for(k=0; k<8; k++)
+  {
+    sano[k] = dataNasc[k+6];
+  }
+  sano[k] = '\0';
+  ano = atoi(sano);
+
+  if(dia > 31 || mes > 12)
+  {
+    printf("Data inválida.\n");
+    cont = 0;
+  }
+  else
+  {
+    cont = 1;
+  }
+  return cont;  
+}
+
+int valida_cpf(char c[13])
+{
+  int cont_cpf = strlen(c);
+  int cont;
+  if (cont_cpf != 11)
+  {
+    printf("CPF não é válido.\n");
+    cont = 0;
+  }
+  else
+  {
+    cont = 1;
+  }
+  return cont;
 }
 
 int main()
 {
   InformacoesCli InformCli[1];
-  int i, ncli=1;
+  int ncli=1, cont = 0;
   
-  CadCliente(InformCli, ncli); 
-  
-  printf("Nome %s\nData de nascimento %s\nCPF %s\nSexo %c\n", InformCli[i].nome,  InformCli[i].dataNasc, InformCli[i].cpf, InformCli[i].sexo);
+  cont = CadCliente(InformCli, ncli);
+  printf("%d", cont);
+  if (cont == 4)
+  {
+    printf("\nCadastro foi realizado com sucesso");
+  }
+  else
+  {
+    printf("\nHouve erro durante o cadastro");
+  }
 }
+

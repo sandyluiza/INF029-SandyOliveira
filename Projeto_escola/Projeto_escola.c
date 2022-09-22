@@ -23,7 +23,9 @@ void lista_uma_disci();
 void lista_disciplina();
 void lista_prof();
 void lista_aluno();
-
+int main();
+void alu_prof_disci();
+#Define tam 2
 
 // estruturas de cadastro básico
 typedef struct
@@ -54,11 +56,12 @@ typedef struct
 estru_disciplina;
 
 // cadastros funções básicas de aluno/professor/disciplina
+
 void aluno()
 {
   int opcao_1;
   printf("\nDigite a opção que deseja realizar:\n");
-  printf("1 - Incluir aluno\n2 - Excluir aluno\n3 - Atualizar dados de aluno\n");
+  printf("1 - Incluir aluno\n2 - Excluir aluno\n3 - Atualizar dados de aluno\n4 - Voltar\n");
   scanf("%d", &opcao_1);
   if (opcao_1 == 1)
   {
@@ -72,12 +75,21 @@ void aluno()
   {
     atua_alun();
   }
+  else if (opcao_1 == 4)
+  {
+    alu_prof_disci();
+  }
+  else
+  {
+    printf("Opção inválida.\n");
+    aluno();
+  }
 }
 void professor()
 {
   int opcao_2;
   printf("\nDigite a opção que deseja realizar:\n");
-  printf("1 - Incluir professor\n2 - Excluir professor\n3 - Atualizar dados de professor\n");
+  printf("1 - Incluir professor\n2 - Excluir professor\n3 - Atualizar dados de professor\n4 - Voltar\n");
   scanf("%d", &opcao_2);
   if (opcao_2 == 1)
   {
@@ -91,12 +103,21 @@ void professor()
   {
     atua_prof();
   }
+  else if (opcao_2 == 4)
+  {
+    alu_prof_disci();
+  }
+  else
+  {
+    printf("Opção inválida.\n");
+    professor();
+  }
 }
 void disciplina()
 {
   int opcao_3;
   printf("\nDigite a opção que deseja realizar:\n");
-  printf("1 - Incluir disciplina\n2 - Excluir disciplina\n3 - Atualizar dados de disciplina\n");
+  printf("1 - Incluir disciplina\n2 - Excluir disciplina\n3 - Atualizar dados de disciplina\n4 - Voltar\n");
   scanf("%d", &opcao_3);
   if (opcao_3 == 1)
   {
@@ -109,6 +130,15 @@ void disciplina()
   else if (opcao_3 == 3)
   {
     atua_discip();
+  }
+  else if (opcao_3 == 4)
+  {
+    alu_prof_disci();
+  }
+  else
+  {
+    printf("Opção inválida.\n");
+    disciplina();
   }
   return;
   // adicionar/excluir alunos na disciplina// fazer depois//
@@ -280,7 +310,7 @@ void relatorios()
 {
   int opcao_relat;
   printf("\nInforme o relatório que deseja gerar:\n");
-  printf("1 - Listar alunos\n2 - Listar professores\n3 - Listar disciplinas(dados das disciplinas sem os alunos)\n4 - Listar uma disciplina(dados da disciplina e os alunos matriculados\n5 - Listar alunos por sexo(F/M)\n6 - Listar alunos ordenados por nome\n7 - Listar alunos ordenados por data de nascimento\n8 - Listar professores por sexo(F/M)\n9 - Listar professores ordenados por nome\n10 - Listar professores ordenados por data de nascimento\n");
+  printf("1 - Listar alunos\n2 - Listar professores\n3 - Listar disciplinas(dados das disciplinas sem os alunos)\n4 - Listar uma disciplina(dados da disciplina e os alunos matriculados\n5 - Listar alunos por sexo(F/M)\n6 - Listar alunos ordenados por nome\n7 - Listar alunos ordenados por data de nascimento\n8 - Listar professores por sexo(F/M)\n9 - Listar professores ordenados por nome\n10 - Listar professores ordenados por data de nascimento\n11 - Voltar\n");
   scanf("%d", &opcao_relat);
   if (opcao_relat == 1)
   {
@@ -321,6 +351,15 @@ void relatorios()
   else if (opcao_relat == 10)
   {
     lista_prof_nasc();
+  }
+  else if (opcao_relat == 11)
+  {
+    main();
+  }
+  else
+  {
+    printf("Opção inválida.\n");
+    relatorios();
   }
 }
 
@@ -366,35 +405,59 @@ void lista_aluno()
   return;
 }
 
+void alu_prof_disci()
+{
+  int opcao;
+  printf("\nDigite a opção que deseja adicionar/modificar/excluir:\n");
+  printf("1 - Aluno\n2 - Professor\n3 - Disciplina\n4 - Voltar\n");
+  scanf("%d", &opcao);
+  
+  if (opcao == 1)
+  {
+    aluno();
+  }
+  else if(opcao == 2)
+  {
+    professor();
+  }
+  else if (opcao == 3)
+  {
+    disciplina();
+  }
+  else if (opcao == 4)
+  {
+    main();
+  }
+  else
+  {
+    printf("Opção inválida.\n");
+    alu_prof_disci();
+  }
+}
+
 // função para chamar as outras
 int main()
 {
-  int opcao, opcao_cr;
+  int opcao_cr;
   printf("\nInforme o que deseja realizar:\n");
-  printf("1 - Adicionar/modificar/excluir cadastro\n2 - Gerar um relatório\n");
+  printf("1 - Adicionar/modificar/excluir cadastro\n2 - Gerar um relatório\n3 - Sair\n");
   scanf("%d", &opcao_cr);
   
   if (opcao_cr == 1)
   {
-    printf("\nDigite a opção que deseja adicionar/modificar/excluir:\n");
-    printf("1 - Aluno\n2 - Professor\n3 - Disciplina\n");
-    scanf("%d", &opcao);
-    
-    if (opcao == 1)
-    {
-      aluno();
-    }
-    else if(opcao == 2)
-    {
-      professor();
-    }
-    else if (opcao == 3)
-    {
-      disciplina();
-    }
+    alu_prof_disci();
   }
   else if(opcao_cr == 2)
   {
     relatorios();
+  }
+  else if(opcao_cr == 3)
+  {
+    return 0;
+  }
+  else
+  {
+    printf("Opção inválida.");
+    main();
   }
 }
