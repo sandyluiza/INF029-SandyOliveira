@@ -25,7 +25,7 @@ void lista_prof();
 void lista_aluno();
 int main();
 void alu_prof_disci();
-#Define tam 2
+#define tam 2
 
 // estruturas de cadastro básico
 typedef struct
@@ -140,7 +140,6 @@ void disciplina()
     printf("Opção inválida.\n");
     disciplina();
   }
-  return;
   // adicionar/excluir alunos na disciplina// fazer depois//
 }
 
@@ -149,6 +148,7 @@ void inc_aluno()
 {
   estru_aluno e_aluno[2];
   int i, n = 2;
+
   for (i=0; i<n; i++)
   {
     getchar();
@@ -167,12 +167,14 @@ void inc_aluno()
     {
       e_aluno[i].nome[l2] = '\0';
     }
+    // lista_aluno(e_aluno[i].nome, 0);
+    
     printf("Informe o sexo ");
-    fgets(e_aluno[i].nome, 50, stdin);
-    size_t l5 = strlen(e_aluno[i].nome) - 1;
-    if (e_aluno[i].nome[l5] == '\n')
+    fgets(e_aluno[i].sexo, 50, stdin);
+    size_t l5 = strlen(e_aluno[i].sexo) - 1;
+    if (e_aluno[i].sexo[l5] == '\n')
     {
-      e_aluno[i].nome[l5] = '\0';
+      e_aluno[i].sexo[l5] = '\0';
     }
     printf("Informe a data de nascimento ");
     fgets(e_aluno[i].dataNasc, 12, stdin);
@@ -189,8 +191,9 @@ void inc_aluno()
       e_aluno[i].cpf[l4] = '\0';
     }
   }
-  return;
+  aluno();
 }
+
 void inc_prof()
 {
   estru_professor e_professor[2];
@@ -235,7 +238,7 @@ void inc_prof()
       e_professor[i].cpf[l4] = '\0';
     }
   }
-  return;
+  professor();
 }
 void inc_disc()
 {
@@ -274,35 +277,35 @@ void inc_disc()
       e_disciplina[i].professor[l4] = '\0';
     }
   }
-  return;
+  disciplina();
 }
 
 // função de excluir
 void exc_alun()
 {
-  return;
+  aluno();
 }
 void exc_prof()
 {
-  return;
+  professor();
 }
 void exc_discip()
 {
-  return;
+  disciplina();
 }
 
 // atualizar 
 void atua_alun()
 {
-  return;
+  aluno();
 }
 void atua_prof()
 {
-  return;
+  professor();
 }
 void atua_discip()
 {
-  return;
+  disciplina();
 }
 
 // RELATORIOS
@@ -315,6 +318,13 @@ void relatorios()
   if (opcao_relat == 1)
   {
     lista_aluno();
+    int i;
+  
+    for(i=0; i<tam; i++)
+    {
+      printf("%s", lista_aluno_1[i]);
+    }
+    
   }
   else if(opcao_relat == 2)
   {
@@ -366,43 +376,51 @@ void relatorios()
 // RELATORIOS SEPARADOS
 void lista_prof_nasc()
 {
-  return;
+  relatorios();
 }
 void lista_prof_nome()
 {
-  return;
+  relatorios();
 }
 void lista_prof_sex()
 {
-  return;
+  relatorios();
 }
 void lista_aluno_nasci()
 {
-  return;
+  relatorios();
 }
 void lista_aluno_nome()
 {
-  return;
+  relatorios();
 }
 void lista_aluno_sex()
 {
-  return;
+  relatorios();
 }
 void lista_uma_disci()
 {
-  return;
+  relatorios();
 }
 void lista_disciplina()
 {
-  return;
+  relatorios();
 }
 void lista_prof()
 {
-  return;
+  relatorios();
 }
-void lista_aluno()
+void lista_aluno(char nome[50])
 {
-  return;
+  
+  // int i;
+  // char lista_aluno_1[50][tam];
+
+  // for(i=0; i<tam; i++)
+  // {
+  //   strcat (lista_aluno_1[i], nome);
+  // }
+  relatorios();
 }
 
 void alu_prof_disci()
@@ -461,3 +479,4 @@ int main()
     main();
   }
 }
+
