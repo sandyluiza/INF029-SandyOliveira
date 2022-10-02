@@ -155,10 +155,10 @@ int valida_cpf(char c[13])
 int main()
 {
   InformacoesCli InformCli[1];
-  int ncli=1, cont = 0;
+  int ncli=1, cont = 0, i;
   
   cont = CadCliente(InformCli, ncli);
-  printf("%d", cont);
+  // printf("%d", cont);
   if (cont == 4)
   {
     printf("\nCadastro foi realizado com sucesso");
@@ -166,6 +166,10 @@ int main()
   else
   {
     printf("\nHouve erro durante o cadastro");
+  }
+  for (i=0; i<ncli; i++)
+  {
+    printf("\n%s\n%s\n%s\n%c\n", InformCli[i].nome, InformCli[i].dataNasc, InformCli[i].cpf, InformCli[i].sexo);
   }
 }
 

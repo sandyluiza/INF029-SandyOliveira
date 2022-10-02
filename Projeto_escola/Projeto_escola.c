@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 void aluno();
 void professor();
 void disciplina();
@@ -25,14 +26,15 @@ void lista_prof();
 void lista_aluno();
 int main();
 void alu_prof_disci();
-#define tam 2
+void inse_alu_discip();
+void exclu_alu_discip();
 
 // estruturas de cadastro básico
 typedef struct
 {
   char matricula[20];
   char nome[50];
-  char sexo[2];
+  char sexo[5];
   char dataNasc[12];
   char cpf[13];
 }
@@ -41,7 +43,7 @@ typedef struct
 {
   char matricula[20];
   char nome[50];
-  char sexo[2];
+  char sexo[5];
   char dataNasc[12];
   char cpf[13];
 }
@@ -52,12 +54,12 @@ typedef struct
   char codigo[20];
   char semestre[12];
   char professor[50];
+  char aluno[50][100];
 }
 estru_disciplina;
 
-// cadastros funções básicas de aluno/professor/disciplina
-
-void aluno()
+// CHAMAR AS FUNÇÕES DE ADICIONAR MODIFICAR E EXCLUIR
+void aluno(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
   int opcao_1;
   printf("\nDigite a opção que deseja realizar:\n");
@@ -65,27 +67,27 @@ void aluno()
   scanf("%d", &opcao_1);
   if (opcao_1 == 1)
   {
-    inc_aluno();
+    inc_aluno(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if(opcao_1 == 2)
   {
-    exc_alun();
+    exc_alun(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao_1 == 3)
   {
-    atua_alun();
+    atua_alun(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao_1 == 4)
   {
-    alu_prof_disci();
+    alu_prof_disci(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else
   {
     printf("Opção inválida.\n");
-    aluno();
+    aluno(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
 }
-void professor()
+void professor(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
   int opcao_2;
   printf("\nDigite a opção que deseja realizar:\n");
@@ -93,223 +95,567 @@ void professor()
   scanf("%d", &opcao_2);
   if (opcao_2 == 1)
   {
-    inc_prof();
+    inc_prof(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if(opcao_2 == 2)
   {
-    exc_prof();
+    exc_prof(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao_2 == 3)
   {
-    atua_prof();
+    atua_prof(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao_2 == 4)
   {
-    alu_prof_disci();
+    alu_prof_disci(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else
   {
     printf("Opção inválida.\n");
-    professor();
+    professor(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
 }
-void disciplina()
+void disciplina(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
   int opcao_3;
   printf("\nDigite a opção que deseja realizar:\n");
-  printf("1 - Incluir disciplina\n2 - Excluir disciplina\n3 - Atualizar dados de disciplina\n4 - Voltar\n");
+  printf("1 - Incluir disciplina\n2 - Excluir disciplina\n3 - Atualizar dados de disciplina\n4 - Inserir aluno em disciplina\n5 - Excluir aluno de disciplina\n6 - Voltar\n");
   scanf("%d", &opcao_3);
   if (opcao_3 == 1)
   {
-    inc_disc();
+    inc_disc(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if(opcao_3 == 2)
   {
-    exc_discip();
+    exc_discip(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao_3 == 3)
   {
-    atua_discip();
+    atua_discip(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao_3 == 4)
   {
-    alu_prof_disci();
+    inse_alu_discip(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
+  }
+  else if (opcao_3 == 5)
+  {
+    exclu_alu_discip(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
+  }
+  else if (opcao_3 == 6)
+  {
+    alu_prof_disci(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else
   {
     printf("Opção inválida.\n");
-    disciplina();
+    disciplina(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
-  // adicionar/excluir alunos na disciplina// fazer depois//
 }
 
-// função de incluir
-void inc_aluno()
+// INCLUIR CADASTROS
+void inc_aluno(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  estru_aluno e_aluno[2];
-  int i, n = 2;
-
-  for (i=0; i<n; i++)
+  getchar();
+  printf("\n");
+  printf("Informe a matrícula ");
+  fgets(e_aluno[qtdAluno].matricula, 20, stdin);
+  size_t l1 = strlen(e_aluno[qtdAluno].matricula) - 1;
+  if (e_aluno[qtdAluno].matricula[l1] == '\n')
   {
-    getchar();
-    printf("\n");
-    printf("Informe a matrícula ");
-    fgets(e_aluno[i].matricula, 20, stdin);
-    size_t l1 = strlen(e_aluno[i].matricula) - 1;
-    if (e_aluno[i].matricula[l1] == '\n')
-    {
-      e_aluno[i].matricula[l1] = '\0';
-    }
-    printf("Informe o nome ");
-    fgets(e_aluno[i].nome, 50, stdin);
-    size_t l2 = strlen(e_aluno[i].nome) - 1;
-    if (e_aluno[i].nome[l2] == '\n')
-    {
-      e_aluno[i].nome[l2] = '\0';
-    }
-    // lista_aluno(e_aluno[i].nome, 0);
-    
-    printf("Informe o sexo ");
-    fgets(e_aluno[i].sexo, 50, stdin);
-    size_t l5 = strlen(e_aluno[i].sexo) - 1;
-    if (e_aluno[i].sexo[l5] == '\n')
-    {
-      e_aluno[i].sexo[l5] = '\0';
-    }
-    printf("Informe a data de nascimento ");
-    fgets(e_aluno[i].dataNasc, 12, stdin);
-    size_t l3 = strlen(e_aluno[i].dataNasc) - 1;
-    if (e_aluno[i].dataNasc[l3] == '\n')
-    {
-      e_aluno[i].dataNasc[l3] = '\0';
-    }
-    printf("Informe o CPF ");
-    fgets(e_aluno[i].cpf, 13, stdin);
-    size_t l4 = strlen(e_aluno[i].cpf) - 1;
-    if (e_aluno[i].cpf[l4] == '\n')
-    {
-      e_aluno[i].cpf[l4] = '\0';
-    }
+    e_aluno[qtdAluno].matricula[l1] = '\0';
   }
-  aluno();
-}
-
-void inc_prof()
-{
-  estru_professor e_professor[2];
-  int i, n = 2;
-  for (i=0; i<n; i++)
+  printf("Informe o nome ");
+  fgets(e_aluno[qtdAluno].nome, 50, stdin);
+  size_t l2 = strlen(e_aluno[qtdAluno].nome) - 1;
+  if (e_aluno[qtdAluno].nome[l2] == '\n')
   {
-    getchar();
-    printf("\n");
-    printf("Informe a matrícula ");
-    fgets(e_professor[i].matricula, 20, stdin);
-    size_t l1 = strlen(e_professor[i].matricula) - 1;
-    if (e_professor[i].matricula[l1] == '\n')
-    {
-      e_professor[i].matricula[l1] = '\0';
-    }
-    printf("Informe o nome ");
-    fgets(e_professor[i].nome, 50, stdin);
-    size_t l2 = strlen(e_professor[i].nome) - 1;
-    if (e_professor[i].nome[l2] == '\n')
-    {
-      e_professor[i].nome[l2] = '\0';
-    }
-    printf("Informe o sexo ");
-    fgets(e_professor[i].nome, 50, stdin);
-    size_t l5 = strlen(e_professor[i].nome) - 1;
-    if (e_professor[i].nome[l5] == '\n')
-    {
-      e_professor[i].nome[l5] = '\0';
-    }
-    printf("Informe a data de nascimento ");
-    fgets(e_professor[i].dataNasc, 12, stdin);
-    size_t l3 = strlen(e_professor[i].dataNasc) - 1;
-    if (e_professor[i].dataNasc[l3] == '\n')
-    {
-      e_professor[i].dataNasc[l3] = '\0';
-    }
-    printf("Informe o CPF ");
-    fgets(e_professor[i].cpf, 13, stdin);
-    size_t l4 = strlen(e_professor[i].cpf) - 1;
-    if (e_professor[i].cpf[l4] == '\n')
-    {
-      e_professor[i].cpf[l4] = '\0';
-    }
+    e_aluno[qtdAluno].nome[l2] = '\0';
   }
-  professor();
-}
-void inc_disc()
-{
-  estru_disciplina e_disciplina[2];
-  int i, n = 2;
-  for (i=0; i<n; i++)
+  printf("Informe o sexo ");
+  fgets(e_aluno[qtdAluno].sexo, 2, stdin);
+  size_t l5 = strlen(e_aluno[qtdAluno].sexo) - 1;
+  if (e_aluno[qtdAluno].sexo[l5] == '\n')
   {
-    getchar();
-    printf("\n");
-    printf("Informe o nome ");
-    fgets(e_disciplina[i].nome, 50, stdin);
-    size_t l2 = strlen(e_disciplina[i].nome) - 1;
-    if (e_disciplina[i].nome[l2] == '\n')
+    e_aluno[qtdAluno].sexo[l5] = '\0';
+  }
+  getchar();
+  printf("Informe a data de nascimento ");
+  fgets(e_aluno[qtdAluno].dataNasc, 12, stdin);
+  size_t l3 = strlen(e_aluno[qtdAluno].dataNasc) - 1;
+  if (e_aluno[qtdAluno].dataNasc[l3] == '\n')
+  {
+    e_aluno[qtdAluno].dataNasc[l3] = '\0';
+  }
+  printf("Informe o CPF ");
+  fgets(e_aluno[qtdAluno].cpf, 13, stdin);
+  size_t l4 = strlen(e_aluno[qtdAluno].cpf) - 1;
+  if (e_aluno[qtdAluno].cpf[l4] == '\n')
+  {
+    e_aluno[qtdAluno].cpf[l4] = '\0';
+  }
+  qtdAluno = qtdAluno + 1;
+  aluno(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
+}
+
+void inc_prof(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
+{
+  getchar();
+  printf("\n");
+  printf("Informe a matrícula ");
+  fgets(e_professor[qtdProfessor].matricula, 20, stdin);
+  size_t l1 = strlen(e_professor[qtdProfessor].matricula) - 1;
+  if (e_professor[qtdProfessor].matricula[l1] == '\n')
+  {
+    e_professor[qtdProfessor].matricula[l1] = '\0';
+  }
+  printf("Informe o nome ");
+  fgets(e_professor[qtdProfessor].nome, 50, stdin);
+  size_t l2 = strlen(e_professor[qtdProfessor].nome) - 1;
+  if (e_professor[qtdProfessor].nome[l2] == '\n')
+  {
+    e_professor[qtdProfessor].nome[l2] = '\0';
+  }
+  printf("Informe o sexo ");
+  fgets(e_professor[qtdProfessor].sexo, 2, stdin);
+  size_t l5 = strlen(e_professor[qtdProfessor].sexo) - 1;
+  if (e_professor[qtdProfessor].sexo[l5] == '\n')
+  {
+    e_professor[qtdProfessor].sexo[l5] = '\0';
+  }
+  getchar();
+  printf("Informe a data de nascimento ");
+  fgets(e_professor[qtdProfessor].dataNasc, 12, stdin);
+  size_t l3 = strlen(e_professor[qtdProfessor].dataNasc) - 1;
+  if (e_professor[qtdProfessor].dataNasc[l3] == '\n')
+  {
+    e_professor[qtdProfessor].dataNasc[l3] = '\0';
+  }
+  printf("Informe o CPF ");
+  fgets(e_professor[qtdProfessor].cpf, 13, stdin);
+  size_t l4 = strlen(e_professor[qtdProfessor].cpf) - 1;
+  if (e_professor[qtdProfessor].cpf[l4] == '\n')
+  {
+    e_professor[qtdProfessor].cpf[l4] = '\0';
+  }
+  qtdProfessor = qtdProfessor + 1;
+  
+  professor(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
+}
+void inc_disc(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
+{
+  getchar();
+  printf("\n");
+  printf("Informe o nome ");
+  fgets(e_disciplina[qtdDisciplina].nome, 50, stdin);
+  size_t l2 = strlen(e_disciplina[qtdDisciplina].nome) - 1;
+  if (e_disciplina[qtdDisciplina].nome[l2] == '\n')
+  {
+    e_disciplina[qtdDisciplina].nome[l2] = '\0';
+  }
+  printf("Informe o código ");
+  fgets(e_disciplina[qtdDisciplina].codigo, 20, stdin);
+  size_t l5 = strlen(e_disciplina[qtdDisciplina].codigo) - 1;
+  if (e_disciplina[qtdDisciplina].codigo[l5] == '\n')
+  {
+    e_disciplina[qtdDisciplina].codigo[l5] = '\0';
+  }
+  printf("Informe o semestre ");
+  fgets(e_disciplina[qtdDisciplina].semestre, 12, stdin);
+  size_t l3 = strlen(e_disciplina[qtdDisciplina].semestre) - 1;
+  if (e_disciplina[qtdDisciplina].semestre[l3] == '\n')
+  {
+    e_disciplina[qtdDisciplina].semestre[l3] = '\0';
+  }
+  printf("Informe o professor ");
+  fgets(e_disciplina[qtdDisciplina].professor, 50, stdin);
+  size_t l4 = strlen(e_disciplina[qtdDisciplina].professor) - 1;
+  if (e_disciplina[qtdDisciplina].professor[l4] == '\n')
+  {
+    e_disciplina[qtdDisciplina].professor[l4] = '\0';
+  }
+  qtdDisciplina = qtdDisciplina + 1;
+  
+  disciplina(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
+}
+
+// EXCLUIR CADASTROS
+void exc_alun(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
+{
+  int matricula, cont = 0;
+  if (qtdAluno == 0)
+  {
+    printf("\nNenhum aluno foi cadastrado.\n");
+  }
+  else
+  {
+    printf("\nDigite a matrícula do aluno a ser excluido: ");
+    scanf("%d", &matricula);
+    for (int i = 0; i < qtdAluno; i++) 
     {
-      e_disciplina[i].nome[l2] = '\0';
+      if (matricula == atoi(e_aluno[i].matricula)) 
+      {
+        for (int j = i; j < qtdAluno - 1; j++) 
+        { 
+          e_aluno[j] = e_aluno[j + 1];
+        }
+        qtdAluno = qtdAluno - 1;
+        printf("\nAluno excluído com sucesso.\n");
+        break;
+      }
+      else
+      {
+        cont = cont + 1;
+      }
     }
-    printf("Informe o código ");
-    fgets(e_disciplina[i].codigo, 20, stdin);
-    size_t l5 = strlen(e_disciplina[i].codigo) - 1;
-    if (e_disciplina[i].codigo[l5] == '\n')
+    if (cont != 0)
     {
-      e_disciplina[i].codigo[l5] = '\0';
-    }
-    printf("Informe o semestre ");
-    fgets(e_disciplina[i].semestre, 12, stdin);
-    size_t l3 = strlen(e_disciplina[i].semestre) - 1;
-    if (e_disciplina[i].semestre[l3] == '\n')
-    {
-      e_disciplina[i].semestre[l3] = '\0';
-    }
-    printf("Informe o professor ");
-    fgets(e_disciplina[i].professor, 50, stdin);
-    size_t l4 = strlen(e_disciplina[i].professor) - 1;
-    if (e_disciplina[i].professor[l4] == '\n')
-    {
-      e_disciplina[i].professor[l4] = '\0';
+      printf("\nMatrícula não encontrada.\n");
     }
   }
-  disciplina();
+  aluno(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
+}
+void exc_prof(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
+{
+  int matricula, cont = 0;
+  if (qtdProfessor == 0)
+  {
+    printf("\nNenhum professor foi cadastrado.\n");
+  }
+  else
+  {
+    printf("\nDigite a matrícula do aluno a ser excluido: ");
+    scanf("%d", &matricula);
+    for (int i = 0; i < qtdProfessor; i++) 
+    {
+      if (matricula == atoi(e_professor[i].matricula)) 
+      {
+        for (int j = i; j < qtdProfessor - 1; j++) 
+        { 
+          e_professor[j] = e_professor[j + 1];
+        }
+        qtdProfessor = qtdProfessor - 1;
+        printf("\nProfessor excluído com sucesso.\n");
+        break;
+      }
+      else
+      {
+        cont = cont + 1;
+      }
+    }
+    if (cont != 0)
+    {
+      printf("\nMatrícula não encontrada.\n");
+    }
+  }
+  professor(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
+}
+void exc_discip(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
+{
+  int codigo, cont = 0;
+  if (qtdDisciplina == 0)
+  {
+    printf("\nNenhuma disciplina foi cadastrada.\n");
+  }
+  else
+  {
+    printf("\nDigite o código da disciplina a ser excluido: ");
+    scanf("%d", &codigo);
+    for (int i = 0; i < qtdDisciplina; i++) 
+    {
+      if (codigo == atoi(e_disciplina[i].codigo)) 
+      {
+        for (int j = i; j < qtdDisciplina - 1; j++) 
+        { 
+          e_disciplina[j] = e_disciplina[j + 1];
+        }
+        qtdDisciplina = qtdDisciplina - 1;
+        printf("\nDisciplina excluída com sucesso.\n");
+        break;
+      }
+      else
+      {
+        cont = cont + 1;
+      }
+    }
+    if (cont != 0)
+    {
+      printf("\nCódigo não encontrado.\n");
+    }
+  }
+  disciplina(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
 
-// função de excluir
-void exc_alun()
+// ATUALIZAR CADASTROS 
+void atua_alun(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  aluno();
+  int matricula, cont = 0;
+  if (qtdAluno == 0)
+  {
+    printf("\nNenhum aluno foi cadastrado.\n");
+  }
+  else
+  {
+    printf("\nDigite a matrícula do aluno a ser atualizado: ");
+    scanf("%d", &matricula);
+    for (int i = 0; i < qtdAluno; i++) 
+    {
+      if (matricula == atoi(e_aluno[i].matricula)) 
+      {
+        getchar();
+        printf("\n");
+        printf("Informe o nome ");
+        fgets(e_aluno[i].nome, 50, stdin);
+        size_t l2 = strlen(e_aluno[i].nome) - 1;
+        if (e_aluno[i].nome[l2] == '\n')
+        {
+          e_aluno[i].nome[l2] = '\0';
+        }
+        printf("Informe o sexo ");
+        fgets(e_aluno[i].sexo, 2, stdin);
+        size_t l5 = strlen(e_aluno[i].sexo) - 1;
+        if (e_aluno[i].sexo[l5] == '\n')
+        {
+          e_aluno[i].sexo[l5] = '\0';
+        }
+        getchar();
+        printf("Informe a data de nascimento ");
+        fgets(e_aluno[i].dataNasc, 12, stdin);
+        size_t l3 = strlen(e_aluno[i].dataNasc) - 1;
+        if (e_aluno[i].dataNasc[l3] == '\n')
+        {
+          e_aluno[i].dataNasc[l3] = '\0';
+        }
+        printf("Informe o CPF ");
+        fgets(e_aluno[i].cpf, 13, stdin);
+        size_t l4 = strlen(e_aluno[i].cpf) - 1;
+        if (e_aluno[i].cpf[l4] == '\n')
+        {
+          e_aluno[i].cpf[l4] = '\0';
+        }
+        printf("\nAluno atualizado com sucesso.\n");
+        break;
+      }
+      else
+      {
+        cont = cont + 1;
+      }
+    }
+    if (cont != 0)
+    {
+      printf("\nMatrícula não encontrada.\n");
+    }
+  }
+  aluno(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
-void exc_prof()
+void atua_prof(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  professor();
+  int matricula, cont = 0;
+  if (qtdProfessor == 0)
+  {
+    printf("\nNenhum professor foi cadastrado.\n");
+  }
+  else
+  {
+    printf("\nDigite a matrícula do professor a ser atualizado: ");
+    scanf("%d", &matricula);
+    for (int i = 0; i < qtdProfessor; i++) 
+    {
+      if (matricula == atoi(e_professor[i].matricula)) 
+      {
+        getchar();
+        printf("\n");
+        printf("Informe o nome ");
+        fgets(e_professor[i].nome, 50, stdin);
+        size_t l2 = strlen(e_professor[i].nome) - 1;
+        if (e_professor[i].nome[l2] == '\n')
+        {
+          e_professor[i].nome[l2] = '\0';
+        }
+        printf("Informe o sexo ");
+        fgets(e_professor[i].sexo, 2, stdin);
+        size_t l5 = strlen(e_professor[i].sexo) - 1;
+        if (e_professor[i].sexo[l5] == '\n')
+        {
+          e_professor[i].sexo[l5] = '\0';
+        }
+        getchar();
+        printf("Informe a data de nascimento ");
+        fgets(e_professor[i].dataNasc, 12, stdin);
+        size_t l3 = strlen(e_professor[i].dataNasc) - 1;
+        if (e_professor[i].dataNasc[l3] == '\n')
+        {
+          e_professor[i].dataNasc[l3] = '\0';
+        }
+        printf("Informe o CPF ");
+        fgets(e_professor[i].cpf, 13, stdin);
+        size_t l4 = strlen(e_professor[i].cpf) - 1;
+        if (e_professor[i].cpf[l4] == '\n')
+        {
+          e_professor[i].cpf[l4] = '\0';
+        }
+        printf("\nProfessor atualizado com sucesso.\n");
+        break;
+      }
+      else
+      {
+        cont = cont + 1;
+      }
+    }
+    if (cont != 0)
+    {
+      printf("\nMatrícula não encontrada.\n");
+    }
+  }
+  professor(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
-void exc_discip()
+void atua_discip(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  disciplina();
+  int codigo, cont = 0;
+  if (qtdDisciplina == 0)
+  {
+    printf("\nNenhuma disciplina foi cadastrada.\n");
+  }
+  else
+  {
+    printf("\nDigite o código da disciplina a ser atualizado: ");
+    scanf("%d", &codigo);
+    for (int i = 0; i < qtdDisciplina; i++) 
+    {
+      if (codigo == atoi(e_disciplina[i].codigo)) 
+      {
+        getchar();
+        printf("\n");
+        printf("Informe o nome ");
+        fgets(e_disciplina[i].nome, 50, stdin);
+        size_t l2 = strlen(e_disciplina[i].nome) - 1;
+        if (e_disciplina[i].nome[l2] == '\n')
+        {
+          e_disciplina[i].nome[l2] = '\0';
+        }
+        printf("Informe o semestre ");
+        fgets(e_disciplina[i].semestre, 12, stdin);
+        size_t l3 = strlen(e_disciplina[i].semestre) - 1;
+        if (e_disciplina[i].semestre[l3] == '\n')
+        {
+          e_disciplina[i].semestre[l3] = '\0';
+        }
+        printf("Informe o professor ");
+        fgets(e_disciplina[i].professor, 50, stdin);
+        size_t l4 = strlen(e_disciplina[i].professor) - 1;
+        if (e_disciplina[i].professor[l4] == '\n')
+        {
+          e_disciplina[i].professor[l4] = '\0';
+        }
+        printf("\nDisciplina atualizada com sucesso.\n");
+        break;
+      }
+      else
+      {
+        cont = cont + 1;
+      }
+    }
+    if (cont != 0)
+    {
+      printf("\nCódigo não encontrado.\n");
+    }
+  }
+  disciplina(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
 
-// atualizar 
-void atua_alun()
+// ALUNOS EM DISCIPLINAS
+void inse_alu_discip(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  aluno();
-}
-void atua_prof()
-{
-  professor();
-}
-void atua_discip()
-{
-  disciplina();
+  int codigo, cont = 0, cont_alu_disc = 0;
+  if (qtdDisciplina == 0)
+  {
+    printf("\nNenhuma disciplina foi cadastrada.\n");
+  }
+  else
+  {
+    printf("\nDigite o código da disciplina que deseja cadastrar o aluno: ");
+    scanf("%d", &codigo);
+    for (int i = 0; i < qtdDisciplina; i++) 
+    {
+      if (codigo == atoi(e_disciplina[i].codigo)) 
+      {
+        getchar();
+        printf("\n");
+        printf("Informe o nome do aluno a ser cadastrado ");
+        fgets(e_disciplina[i].aluno[cont_alu_disc], 50, stdin);
+        size_t l2 = strlen(e_disciplina[i].aluno[cont_alu_disc]) - 1;
+        if (e_disciplina[i].aluno[cont_alu_disc][l2] == '\n')
+        {
+          e_disciplina[i].aluno[cont_alu_disc][l2] = '\0';
+        }
+        printf("\nAluno cadastrado com sucesso em disciplina.\n");
+        cont_alu_disc = cont_alu_disc + 1;
+        break;
+      }
+      else
+      {
+        cont = cont + 1;
+      }
+    }
+    if (cont != 0)
+    {
+      printf("\nCódigo não encontrado.\n");
+    }
+  }
+  disciplina(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
 
-// RELATORIOS
-void relatorios()
+void exclu_alu_discip(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
+{
+  int codigo, cont;
+  char aluno_1[50];
+  if (qtdDisciplina == 0)
+  {
+    printf("\nNenhuma disciplina foi cadastrada.\n");
+  }
+  else
+  {
+    printf("\nDigite o código da disciplina que deseja excluir o aluno: ");
+    scanf("%d", &codigo);
+    for (int i = 0; i < qtdDisciplina; i++) 
+    {
+      if (codigo == atoi(e_disciplina[i].codigo)) 
+      {
+        printf("\nInforme o nome do aluno que deseja excluir\n");
+        fgets(aluno_1, 50, stdin);
+        size_t l2 = strlen(aluno_1) - 1;
+        if (aluno_1[l2] == '\n')
+        {
+          aluno_1[l2] = '\0';
+        }
+        
+        for(int j = 0; j<cont_alu_discip; j++)
+        {
+          if (aluno_1 == e_disciplina[i].aluno[j])
+          {
+            for (int k = j; k < cont_alu_discip - 1; k++) 
+            { 
+              e_disciplina[i].aluno[k] = e_disciplina[i].aluno[k + 1];
+            }
+          }
+        }
+        printf("\nAluno excluído de disciplina com sucesso.\n");
+        break;
+      }
+      else
+      {
+        cont = cont + 1;
+      }
+    }
+    if (cont != 0)
+    {
+      printf("\nCódigo não encontrado.\n");
+    }
+  }
+  disciplina(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
+}
+
+// CHAMAR AS LISTAS
+void relatorios(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
   int opcao_relat;
   printf("\nInforme o relatório que deseja gerar:\n");
@@ -317,166 +663,156 @@ void relatorios()
   scanf("%d", &opcao_relat);
   if (opcao_relat == 1)
   {
-    lista_aluno();
-    int i;
-  
-    for(i=0; i<tam; i++)
-    {
-      printf("%s", lista_aluno_1[i]);
-    }
-    
+    lista_aluno(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);   
   }
   else if(opcao_relat == 2)
   {
-    lista_prof();
+    lista_prof(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao_relat == 3)
   {
-    lista_disciplina();
+    lista_disciplina(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if(opcao_relat == 4)
   {
-    lista_uma_disci();
+    lista_uma_disci(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao_relat == 5)
   {
-    lista_aluno_sex();
+    lista_aluno_sex(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao_relat == 6)
   {
-    lista_aluno_nome();
+    lista_aluno_nome(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if(opcao_relat == 7)
   {
-    lista_aluno_nasci();
+    lista_aluno_nasci(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao_relat == 8)
   {
-    lista_prof_sex();
+    lista_prof_sex(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if(opcao_relat == 9)
   {
-    lista_prof_nome();
+    lista_prof_nome(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao_relat == 10)
   {
-    lista_prof_nasc();
+    lista_prof_nasc(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao_relat == 11)
   {
-    main();
+    alu_prof_disci(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else
   {
     printf("Opção inválida.\n");
-    relatorios();
+    relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
 }
 
-// RELATORIOS SEPARADOS
-void lista_prof_nasc()
+// GERAÇÃO DAS LISTAS
+void lista_prof_nasc(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  relatorios();
+  relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
-void lista_prof_nome()
+void lista_prof_nome(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  relatorios();
+  relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
-void lista_prof_sex()
+void lista_prof_sex(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  relatorios();
+  relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
-void lista_aluno_nasci()
+void lista_aluno_nasci(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  relatorios();
+  relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
-void lista_aluno_nome()
+void lista_aluno_nome(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  relatorios();
+  relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
-void lista_aluno_sex()
+void lista_aluno_sex(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  relatorios();
+  relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
-void lista_uma_disci()
+void lista_uma_disci(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  relatorios();
+  relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
-void lista_disciplina()
+void lista_disciplina(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  relatorios();
+  printf("\nLista de disciplinas:\n");
+  for(int i=0; i<qtdDisciplina; i++)
+  {
+    printf("%s\n", e_disciplina[i].nome);
+  }
+  relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
-void lista_prof()
+void lista_prof(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  relatorios();
+  printf("\nLista de Professores:\n");
+  for(int i=0; i<qtdProfessor; i++)
+  {
+    printf("%s\n", e_professor[i].nome);
+  }
+  relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
-void lista_aluno(char nome[50])
+void lista_aluno(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
-  
-  // int i;
-  // char lista_aluno_1[50][tam];
+  printf("\nLista de alunos:%d\n", qtdAluno);
+  for(int i=0; i<qtdAluno; i++)
+  {
+    printf("%s\n", e_aluno[i].nome);
+  }
+  relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
+}
 
-  // for(i=0; i<tam; i++)
-  // {
-  //   strcat (lista_aluno_1[i], nome);
-  // }
-  relatorios();
-}
-
-void alu_prof_disci()
+// FUNÇÃO QUE DA O MENU
+void alu_prof_disci(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina)
 {
   int opcao;
-  printf("\nDigite a opção que deseja adicionar/modificar/excluir:\n");
-  printf("1 - Aluno\n2 - Professor\n3 - Disciplina\n4 - Voltar\n");
+  printf("\nDigite a opção que deseja realizar:\n");
+  printf("1 - Adicionar/Modificar/Excluir - Aluno\n2 - Adicionar/Modificar/Excluir - Professor\n3 - Adicionar/Modificar/Excluir - Disciplina\n4 - Gerar Relatórios\n5 - Sair\n");
   scanf("%d", &opcao);
   
   if (opcao == 1)
   {
-    aluno();
+    aluno(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if(opcao == 2)
   {
-    professor();
+    professor(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
   else if (opcao == 3)
   {
-    disciplina();
+    disciplina(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
-  else if (opcao == 4)
+  else if(opcao == 4)
   {
-    main();
+    relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
+  }
+  else if (opcao == 5)
+  {
+    return;
   }
   else
   {
     printf("Opção inválida.\n");
-    alu_prof_disci();
+    alu_prof_disci(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
   }
 }
 
-// função para chamar as outras
+// FUNÇÃO MAIN
 int main()
 {
-  int opcao_cr;
-  printf("\nInforme o que deseja realizar:\n");
-  printf("1 - Adicionar/modificar/excluir cadastro\n2 - Gerar um relatório\n3 - Sair\n");
-  scanf("%d", &opcao_cr);
-  
-  if (opcao_cr == 1)
-  {
-    alu_prof_disci();
-  }
-  else if(opcao_cr == 2)
-  {
-    relatorios();
-  }
-  else if(opcao_cr == 3)
-  {
-    return 0;
-  }
-  else
-  {
-    printf("Opção inválida.");
-    main();
-  }
+  estru_aluno e_aluno[1];
+  int qtdAluno = 0;
+  estru_professor e_professor[1];
+  int qtdProfessor= 0;
+  estru_disciplina e_disciplina[1];
+  int qtdDisciplina = 0;
+  alu_prof_disci(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina);
 }
 
