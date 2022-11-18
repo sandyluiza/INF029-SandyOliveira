@@ -25,6 +25,7 @@
 #include "SandyOliveira20212160013.h" 
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 int validacao_data();
 int biss();
 
@@ -445,7 +446,88 @@ int q3(char *texto, char c, int isCaseSensitive)
  */
 int q4(char *strTexto, char *strBusca, int posicoes[30])
 {
+  int qtdOcorrencias = 0, o = 0, qtd_carac_espec = 0;
+  int letra;
+  for (int j=0; j < strlen(strTexto); j++)
+  {
+    int cont = 0;
+    letra = strTexto[j];
+    if (letra == -61)
+    {
+      qtd_carac_espec = qtd_carac_espec + 1;
+    }
+    
+    if (strBusca[0] == strTexto[j])
+    {
+      for(int i=0; i <strlen(strBusca); i++)
+      {
+        if (strBusca[i] == strTexto[j+i])
+        {
+          cont = cont + 1;
+        }
+      }
+    }
+    if (cont == strlen(strBusca))
+    {
+      qtdOcorrencias = qtdOcorrencias + 1;
+      posicoes[o] = j + 1 - qtd_carac_espec;
+      o++;
+      posicoes[o] = j + cont - qtd_carac_espec;
+      o++;
+    }
+  }
+
+  return qtdOcorrencias;
+}
+
+/*
+ Q5 = inverte número
+ @objetivo
+    Inverter número inteiro
+ @entrada
+    uma int num.
+ @saida
+    Número invertido
+ */
+int q5(int num)
+{
+  char num1[50];
+  int numesse, p = 1, numfim = 0;
+  sprintf(num1, "%d", num);
+  int tam = strlen(num1);
+
+  for (int z = 0; z<tam; z++)
+  {
+    p = p*10;
+  }
+  
+  while (num > 1)
+  {
+    numesse = num % 10;
+    numfim = numfim + numesse*p;
+    num = num/10;
+    p = p/10;
+  }
+  num = numfim/10;
+  return num;
+}
+
+/*
+ Q6 = ocorrência de um número em outro
+ @objetivo
+    Verificar quantidade de vezes da ocorrência de um número em outro
+ @entrada
+    Um número base (numerobase) e um número de busca (numerobusca).
+ @saida
+    Quantidade de vezes que número de busca ocorre em número base
+ */
+int q6(int numerobase, int numerobusca)
+{
   int qtdOcorrencias = 0, o = 0;
+  char strTexto[100], strBusca[100];
+  
+  sprintf(strTexto, "%d", numerobase);
+  sprintf(strBusca, "%d", numerobusca);
   
   for (int j=0; j < strlen(strTexto); j++)
   {
@@ -463,51 +545,7 @@ int q4(char *strTexto, char *strBusca, int posicoes[30])
     if (cont == strlen(strBusca))
     {
       qtdOcorrencias = qtdOcorrencias + 1;
-      posicoes[o] = j + 1;
-      o++;
-      posicoes[o] = j + cont;
-      o++;
     }
   }
-  
-  // for (int m = 0; m < qtdOcorrencias*2; m++)
-  // {
-  //   printf("posições %d\n", posicoes[m]);
-  // }
   return qtdOcorrencias;
-}
-
-/*
- Q5 = inverte número
- @objetivo
-    Inverter número inteiro
- @entrada
-    uma int num.
- @saida
-    Número invertido
- */
-int q5(int num)
-{
-  // cont = 0, resto =   0;
-  // while (num>10)
-  // {
-    
-  //   cont
-  // }
-  return num;
-}
-
-/*
- Q6 = ocorrência de um número em outro
- @objetivo
-    Verificar quantidade de vezes da ocorrência de um número em outro
- @entrada
-    Um número base (numerobase) e um número de busca (numerobusca).
- @saida
-    Quantidade de vezes que número de busca ocorre em número base
- */
-int q6(int numerobase, int numerobusca)
-{
-    int qtdOcorrencias;
-    return qtdOcorrencias;
 }
