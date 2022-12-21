@@ -707,6 +707,11 @@ void lista_prof_nome(estru_aluno e_aluno[], int qtdAluno, estru_professor e_prof
 }
 void lista_prof_sex(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina, int cont_alu_disc)
 {
+  printf("\nLista de Professores com sexo:\n");
+  for(int i=0; i<qtdProfessor; i++)
+  {
+    printf("%s %s\n", e_professor[i].nome, e_professor[i].sexo);
+  }
   relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina, cont_alu_disc);
 }
 void lista_aluno_nasci(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina, int cont_alu_disc)
@@ -719,22 +724,11 @@ void lista_aluno_nome(estru_aluno e_aluno[], int qtdAluno, estru_professor e_pro
 }
 void lista_aluno_sex(estru_aluno e_aluno[], int qtdAluno, estru_professor e_professor[], int qtdProfessor, estru_disciplina e_disciplina[], int qtdDisciplina, int cont_alu_disc)
 {
-  printf("\nLista de alunos por sexo:\n");
-  printf("\nSexo Feminino:\n");
+  printf("\nLista de alunos com sexo:\n");
   for(int i=0; i<qtdAluno; i++)
   {
-    if(e_aluno[i].sexo == "F")
-    {
-      printf("%s\n", e_aluno[i].nome);
-    }
-  }
-  printf("\nSexo Masculino:\n");
-  for(int i=0; i<qtdAluno; i++)
-  {
-    if(e_aluno[i].sexo == "M")
-    {
-      printf("%s\n", e_aluno[i].nome);
-    }
+    printf("%s %s\n", e_aluno[i].nome, e_aluno[i].sexo);
+    
   }
   relatorios(e_aluno, qtdAluno, e_professor, qtdProfessor, e_disciplina, qtdDisciplina, cont_alu_disc);
 }
